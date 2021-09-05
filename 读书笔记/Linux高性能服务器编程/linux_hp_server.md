@@ -3,7 +3,7 @@
 ## TCP/IP 协议族体系结构
 
   <figure>
-    <img src="./linux_hp_server.assets/image-20210827142909543.png" alt="img" style="zoom:67%;">
+    <img src="linux_hp_server.assets/image-20210827142909543.png" alt="img" style="zoom:67%;">
     <figcaption>Fig. 1-1 四层协议族及主要协议。</figcaption>
   </figure>
 
