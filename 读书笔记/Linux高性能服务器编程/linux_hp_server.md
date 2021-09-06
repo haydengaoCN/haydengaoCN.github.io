@@ -106,6 +106,8 @@
     <img src="linux_hp_server.assets/image-20210827154621614.png" alt="img" style="zoom:67%;">
     <figcaption>Fig. 1-4 以太网帧的分用过程。</figcaption>
   </figure>
+
+
 ## DNS工作原理
 
 > 可惜的是，我们通常是用域名来访问机器，而不是直接使用IP地址，那么机器的域名如何对应到IP地址？
