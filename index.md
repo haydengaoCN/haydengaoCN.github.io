@@ -4,9 +4,28 @@
 >
 > -- Louis Trenchard More, *Isaac Newton: A Biography* (New York: Scribner's, 1934), p. 664.
 
+本人摘抄整理知识的地方，督促自己读书写字。
+
+主要分为两类：
+
+[读书笔记](https://github.com/haydengaoCN/haydengaoCN.github.io/tree/main/note-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0) 书籍摘抄，主题学习。
+
+1. [Linux 高性能服务器编程](https://github.com/haydengaoCN/haydengaoCN.github.io/tree/main/note-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B) 这本书从 TCP/IP  协议族讲起，然后讲 socket 编程，最后给出服务器经典的框架模型。受益最深的是对三个 I/O 复用函数的讲解，帮我解了多年来的困惑。
+2. [MySQL_InnoDB存储引擎](https://github.com/haydengaoCN/haydengaoCN.github.io/tree/main/note-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/MySQL_InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E) 摘抄自被无数人奉为神书的「MySQL技术内幕-InnoDB存储引擎」。虽然之前零散的看过讲解 MySQL 原理的文章，阅读这本书时还是觉得困难重重，难以理解。本书假定读者已经有了一定的基础知识，章节之间并没有明显的界限，算是知识的杂糅综合 （阅读时的错乱和困惑让我想起了大学时学习线性代数的日子）。推荐先快速阅读一遍，对各个知识块有个大概印象，第二遍再细读。
+
+[浅斟低唱](https://github.com/haydengaoCN/haydengaoCN.github.io/tree/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1) 离散知识点，记录工作中用到的组件背后原理。
+
+1. [关系型数据库与非关系型数据库](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/1-%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93.md) 二者的简单比较。
+2. [RocksDB低吟](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/2-RocksDB%E4%BD%8E%E5%90%9F.md) 关键字：LSM、SST、WAL。
+3. [Redis初探](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/3-Redis%E5%88%9D%E6%8E%A2.md) 
+4. [ElasticSearch简述](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/4-ElasticSearch%E7%AE%80%E8%BF%B0.md) 关键字：全文检索、ES 整体结构、写入和搜索过程。
+5. [RPC只缘身在此山中](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/5-RPC%E5%8F%AA%E7%BC%98%E8%BA%AB%E5%9C%A8%E6%AD%A4%E5%B1%B1%E4%B8%AD.md)
+
+
+
 牛顿爵士谦虚地把自己比喻成一个在知识的汪洋大海边玩耍的小男孩，不时为捡到一颗光滑的鹅卵石或一块漂亮的贝壳而欣喜若狂。
 
-牛顿爵士烦恼的是真理之海只被揭露了一小部分，我的烦恼在于如何安置这不时捡到的鹅卵石和贝壳。一个零散的知识点就是一颗光滑的鹅卵石，你自然可以随意将其揣在兜里；但是随着鹅卵石不断增多，口袋就装不下了，自然想着如何分类和存储。也就是说，当面对着奔涌的、不断接触到信息，如何高效的理解归纳？
+牛顿爵士烦恼的是真理之海只被揭露了一小部分，我的烦恼在于如何安置这不时捡到的鹅卵石和贝壳。如果一个零散的知识点就是一颗光滑的鹅卵石，你自然可以随意将其揣在兜里；但是随着鹅卵石不断增多，口袋就装不下了，自然想着如何分类和存储。也就是说，当面对着奔涌的、不断接触到的信息，如何高效的理解和归纳？
 
 窃以为弯腰拾贝壳之前，更重要的是先建立自身知识宫殿的骨架。学习一个新的事物时，最好先搭建一个知识的框架，然后再丰富其骨肉。换句话说，学习应该是一个自顶向下的过程，先学习高层的抽象，然后再补充细节，理解抽象语句下的真实内涵。
 
@@ -18,15 +37,6 @@
 
 那么如何建立对陌生事物的高度抽象呐？无它，书籍是人类进步的阶梯。
 
-笔记至少分为两种吧，一种是抄（写）字典，一种是自建索引。
+书籍是成体系的知识的代表，它的目录就是高度抽象的结果。作者将主要知识点分类和归纳，十分慷慨的将所涉内容的高层抽象呈现给读者。建立知识框架后，再去阅读书本具体内容，便不会觉得突兀和凌乱。
 
-前者较为详实的记录下操作步骤，方便后续翻阅；比如记录工作中常用到的业务查询 SQL语句，下次再用就不需要去查看具体字段名称。这种情况下越详细，下次复现时就越轻快。
-
-还有一种情况是只摘抄要点，后面翻看笔记自然能通过要点回想起背后的细节。这更像是一种提纲挈领的过程，一方面重点突出，避免一开始就陷入到无尽的细节中，另一方面如果需要也清楚在哪里补底层细节。
-
-知识的来源也分两种，一种是以书籍为代表的完整的、成体系的知识；另一种是片面的、零碎的知识。一个零散的知识点就是牛顿所说的一个漂亮的鹅卵石或者贝壳，问题在于捡到之后如果只是检点
-
-[读书笔记](https://github.com/haydengaoCN/haydengaoCN.github.io/tree/main/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0) 书籍摘抄，主题学习。
-
-[浅斟低唱](./疑难杂症) 离散知识点，记录工作中用到的组件使用方法和背后原理。
-
+写在这里，也是给自己的一个提示，多看书，少刷微博。
