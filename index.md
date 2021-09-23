@@ -19,11 +19,11 @@
 2. [RocksDB低吟](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/2-RocksDB%E4%BD%8E%E5%90%9F.md) 关键字：LSM、SST、WAL。
 3. [Redis初探](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/3-Redis%E5%88%9D%E6%8E%A2.md) 
 4. [ElasticSearch简述](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/4-ElasticSearch%E7%AE%80%E8%BF%B0.md) 关键字：全文检索、ES 整体结构、写入和搜索过程。
-5. [RPC只缘身在此山中](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/5-RPC%E5%8F%AA%E7%BC%98%E8%BA%AB%E5%9C%A8%E6%AD%A4%E5%B1%B1%E4%B8%AD.md)
+5. [RPC只缘身在此山中](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/5-RPC%E5%8F%AA%E7%BC%98%E8%BA%AB%E5%9C%A8%E6%AD%A4%E5%B1%B1%E4%B8%AD.md) 关键字：RPC、服务发现、序列化与反序列化。
 
+-----------
 
-
-牛顿爵士谦虚地把自己比喻成一个在知识的汪洋大海边玩耍的小男孩，不时为捡到一颗光滑的鹅卵石或一块漂亮的贝壳而欣喜若狂。
+牛顿爵士在自传中谦虚地把自己比喻成一个在知识的汪洋大海边玩耍的小男孩，不时为捡到一颗光滑的鹅卵石或一块漂亮的贝壳而欣喜若狂。
 
 牛顿爵士烦恼的是真理之海只被揭露了一小部分，我的烦恼在于如何安置这不时捡到的鹅卵石和贝壳。如果一个零散的知识点就是一颗光滑的鹅卵石，你自然可以随意将其揣在兜里；但是随着鹅卵石不断增多，口袋就装不下了，自然想着如何分类和存储。也就是说，当面对着奔涌的、不断接触到的信息，如何高效的理解和归纳？
 
@@ -39,4 +39,4 @@
 
 书籍是成体系的知识的代表，它的目录就是高度抽象的结果。作者将主要知识点分类和归纳，十分慷慨的将所涉内容的高层抽象呈现给读者。建立知识框架后，再去阅读书本具体内容，便不会觉得突兀和凌乱。
 
-写在这里，也是给自己的一个提示，多看书，少刷微博。
+写在这里，也是给自己的一个提醒，多看书，少刷微博。
