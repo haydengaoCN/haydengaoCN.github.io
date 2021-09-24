@@ -22,7 +22,7 @@ RocksDB由三个基础的组件构成：MemTable、SST （string sorted table）
 
 多层 Level 的 SST 文件就构成了一棵  LSM 树。
 
-LSM 树特点：
+LSM 树特点：分层、有序、面向磁盘的存储结构
 
 1）除了 Level 0 以外，Level 的数据按照 KEY 有序排列，并且被划分为多个 SST 文件；
 

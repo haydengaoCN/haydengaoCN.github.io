@@ -1,5 +1,3 @@
-
-
 # 0 - 简介
 
 ElasticSearch 是一个分布式的使用 REST 接口的搜索引擎。
