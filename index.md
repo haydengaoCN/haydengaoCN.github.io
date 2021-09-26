@@ -16,10 +16,11 @@
 [浅斟低唱](https://github.com/haydengaoCN/haydengaoCN.github.io/tree/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1) 离散知识点，记录工作中用到的组件背后原理。
 
 1. [关系型数据库与非关系型数据库](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/1-%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93.md) 二者的简单比较。
-2. [RocksDB低吟](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/2-RocksDB%E4%BD%8E%E5%90%9F.md) 关键字：LSM、SST、WAL。
-3. [Redis初探](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/3-Redis%E5%88%9D%E6%8E%A2.md) 
-4. [ElasticSearch简述](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/4-ElasticSearch%E7%AE%80%E8%BF%B0.md) 关键字：全文检索、ES 整体结构、写入和搜索过程。
-5. [RPC只缘身在此山中](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/5-RPC%E5%8F%AA%E7%BC%98%E8%BA%AB%E5%9C%A8%E6%AD%A4%E5%B1%B1%E4%B8%AD.md) 关键字：RPC、服务发现、序列化与反序列化。
+2. [RocksDB 低吟](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/2-RocksDB%E4%BD%8E%E5%90%9F.md) 关键字：LSM，SST，WAL。
+3. [Redis 初探](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/3-Redis%E5%88%9D%E6%8E%A2.md) 
+4. [ElasticSearch 简述](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/4-ElasticSearch%E7%AE%80%E8%BF%B0.md) 关键字：全文检索，ES 整体结构，写入和搜索过程。
+5. [RPC 只缘身在此山中](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/5-RPC%E5%8F%AA%E7%BC%98%E8%BA%AB%E5%9C%A8%E6%AD%A4%E5%B1%B1%E4%B8%AD.md) 关键字：RPC，服务发现，序列化与反序列化。
+6. [Pulsar 湖光秋月两相和](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/6-Pulsar%E6%B9%96%E5%85%89%E7%A7%8B%E6%9C%88%E4%B8%A4%E7%9B%B8%E5%92%8C.md) 关键字：消息中间件，计算和存储分离，分片存储。
 
 -----------
 

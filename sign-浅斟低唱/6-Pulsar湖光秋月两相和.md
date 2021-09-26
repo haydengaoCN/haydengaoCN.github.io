@@ -43,6 +43,8 @@ Pulsar 整体架构如下图所示，有三大组件：
 
 不同于常见的分区数据本地存储，Pulsar 采用分片存储，存储粒度比分区更加细化，存储负载更加均衡。
 
+以分区为中心的存储 （kafka）v.s. 以分片为中心的存储。
+
 <figure>
   <img src="6-Pulsar消息中间件.assets/bookkeeper.png" alt="img" style="zoom: 50%;">
   <figcaption>Fig.1-3 Pulsar 分片存储。分区实际存储单位是 segment（三个副本），均匀分布在 bookies 中。</figcaption>
