@@ -37,6 +37,7 @@ Pulsar 整体架构如下图所示，有三大组件：
   <figcaption>Fig.1-2 Pulsar 分层架构，计算和存储分开。</figcaption>
 </figure>
 
+
 ## 1.2 分片存储
 
 一个 `topic` 有多个主题分区（partition topic），每个分区实际的存储单位为分片（segment）。每个 segment 作为 Apache BookKeeper 集群中的一个 `ledger`，具有三个副本，均匀分布在 `bookies` 中。
@@ -75,6 +76,7 @@ Pulsar 整体架构如下图所示，有三大组件：
   <figcaption>Fig.2-1  存储层扩容。扩容后，新增的 segment 会优先放置在新的 bookies 中，旧数据不需迁移。</figcaption>
 </figure>
 
+
 ## 2.2 可用性
 
 * 消息服务层
@@ -84,6 +86,8 @@ Pulsar 整体架构如下图所示，有三大组件：
   <img src="6-Pulsar消息中间件.assets/pulsar-broker-failure-20210926104933546.png" alt="img" style="zoom: 33%;">
   <figcaption>Fig.2-2 broker 容错。broker2 出现故障，请求转移到了 broker3。broker2 分区的所有权转移到 broker3，新的数据到来存储在了新的分片 x + 1 上。</figcaption>
 </figure>
+
+
 * 持久存储层
 
   如果是 `bookies`上的某个 segment 失败，则只进行 segment 级别的数据恢复，故障分片可以从其他两个副本的数据进行恢复。
@@ -95,8 +99,7 @@ Pulsar 整体架构如下图所示，有三大组件：
   <img src="6-Pulsar消息中间件.assets/pulsar-bookie-failure-2625097.png" alt="img" style="zoom: 33%;">
   <figcaption>Fig.2-3  存储容错。</figcaption>
 </figure>
-
-# 3 - 特性
+# 3 - Pulsar 特性
 
 ## 3.1 读写过程
 
