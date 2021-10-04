@@ -1,4 +1,4 @@
-# TCP/IP协议族
+# 1TCP/IP协议族
 
 ## TCP/IP 协议族体系结构
 
@@ -118,7 +118,7 @@
     <img src="linux_hp_server.assets/bVboDks.png" alt="img" style="zoom:67%;">
     <figcaption>Fig. 1-5 域名解析的过程。</figcaption>
   </figure>
-# IP 协议详解
+# 2 - IP 协议详解
 
 IP服务特点：**无状态**，**无连接**，**不可靠**。
 
@@ -192,8 +192,7 @@ IP服务特点：**无状态**，**无连接**，**不可靠**。
     <img src="linux_hp_server.assets/image-20210829145806192.png" alt="img">
     <figcaption>Fig. 2-4 IPv4固定头部结构。IPv6解决了IPv4地址不足的问题，此外还引进了很多功能。</figcaption>
   </figure>
-
-# TCP协议详解
+# 3 - TCP协议详解
 
 TCP和UDP服务的特点与比较。
 
@@ -461,7 +460,67 @@ $LastByteSend - LastByteAck \le min \{CWND, RWND\}$
   >
   > 但是一些有识之士认为，这两种行为不能一概而论。能收到三个冗余确认，说明整个网络的情况还是可以的，应该降到现有阈值的一半，然后拥塞控制算法线性增加窗口。这里降到一半而非1个MSS就体现了快速二字。
 
-# I/O复用
+# 8 - 高性能服务器框架
+
+## Reactor 与 Proactor 模型
+
+网络设计模型，同步 I/O 模型通常用于实现 Reactor 模型，异步 I/O 模型通常用于实现 Proactor 模式。
+
+### Reactor 模式
+
+主线程只监听文件描述符上是否有事件发生，有的话就立即将该事件通知工作线程。除此之外，主线程不作任何实质性的工作。
+
+工作线程负责**接收新的连接**、**读写数据**以及处理客户请求。
+
+实际工作流程如下：
+
+1）主线程往 epoll  内核事件表中注册 socket 的读就绪事件；
+
+2）主线程调用 epoll_wait 等待 socket 上有数据可读；
+
+3）当 socket 上有数据可读的时候，epoll_wait 通知主线程。主线程将 socket 可读事件放入请求队列；
+
+4）某个工作线程被唤醒，它从 socket 上读取数据，并处理客户请求，然后往 epoll  内核事件表中注册该 socket 上的写就绪事件；
+
+5）主线程调用 epoll_wait 等待 socket 可写；
+
+6）当 socket 可写时，epoll_wait 通知主线程。主线程将 socket 可写事件放入请求队列；
+
+7）某个工作线程被唤醒，它往 socket 上写入服务器处理客户请求的结果；
+
+<figure>
+  <img src=linux_hp_server.assets/image-20210927162531135-2731134.png alt="img" style="zoom:67%;">
+  <figcaption>Fig. 8-1 Reactor 模式。</figcaption>
+</figure>
+
+
+
+### Proactor
+
+Proactor 模式下将所有的 I/O 操作都交给主线程和内核来处理，工作线程仅仅负责业务逻辑。
+
+借助异步 I/O 模型，Proactor 工作流程如下：
+
+1）主线程调用 aio_read 函数向内核注册 socket 上的读完成事件，并告诉内核读缓冲区的位置，以及读操作完成时如何通知应用程序；
+
+2）主线程继续处理其他逻辑；
+
+3）当 socket 上的数据被读入用户缓冲区的时候，内核将向应用程序发送一个信号，以通知应用程序数据已经可用；
+
+4）应用程序预先定义好的信号处理函数选择一个线程处理客户请求。工作线程处理结束后，向内核注册 socket 的写就绪事件，并告诉内核写缓冲区的位置，以及写操作完成时如何通知应用程序；
+
+5）主线程继续处理其他逻辑；
+
+6）当用户缓冲区中的数据被写入 socket 的时候，内核将向应用程序发送一个信号，以通知应用程序数据已经发送完毕；
+
+7）应用程序预先定义好的信号处理函数选择一个线程进行善后工作，比如决定是否关闭 connect。
+
+<figure>
+  <img src=linux_hp_server.assets/image-20210927170639439.png alt="img" style="zoom:67%;">
+  <figcaption>Fig. 8-2 Proactor 模式。</figcaption>
+</figure>
+
+# 9 - I/O复用
 
 I/O模型对比
 
@@ -580,7 +639,7 @@ int epoll_wait(int epfd, struct epoll_event* events, int maxevents, int timeut);
 [^1]:系统允许的最大描述符的数目，epoll同；
 [^2]:内核检测到就绪事件时，将触发回调函数，将就绪事件对应的文件描述符插入到内核就绪事件队列，内核在适当时机将该事件就绪队列中的内容拷贝到用户空间。这样就避免了轮询。
 
-# 进程基础知识
+# 13 - 多进程编程
 
 ## 进程复制与替换
 
@@ -650,7 +709,9 @@ ipcrm可以删除遗留的共享资源。
   };
   ```
 
-# 进程基础知识
+# 14 - 多线程编程
+
+## 线程基础知识
 
 三种专门用于线程同步的机制：POSIX信号量、互斥量和条件变量。
 
