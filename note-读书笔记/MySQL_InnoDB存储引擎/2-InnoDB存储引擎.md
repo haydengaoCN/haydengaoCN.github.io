@@ -96,9 +96,9 @@ InnoDB存储引擎是个多线程模型，线程各司其职
 
   其上的节点都是未被使用的节点，如果需要从数据库中分配新的**数据页**，直接从上获取即可。
 
-  InnoDB需要保证Free List有足够的节点，提供给用户线程用，否则需要从FLU List或者LRU List淘汰一定的节点。
+  InnoDB 需要保证 Free List 有足够的节点，提供给用户线程用，否则需要从 FLU List 或者 LRU List 淘汰一定的节点。
 
-  InnoDB初始化后，Buffer Chunks中的所有数据页都被加入到Free List，表示所有节点都可用。
+  InnoDB 初始化后，Buffer Chunks 中的所有数据页都被加入到Free List，表示所有节点都可用。
 
 * LRU List
 
@@ -106,10 +106,10 @@ InnoDB存储引擎是个多线程模型，线程各司其职
 
   链表按照最近最少使用算法排序，最近最少使用的节点被放在链表末尾，如果Free List里面没有节点了，就会从中淘汰末尾的节点。
 
-  LRU List还包含没有被解压的压缩页，这些压缩页刚从磁盘读取出来，还没来的及被解压。
+  LRU List 还包含没有被解压的压缩页，这些压缩页刚从磁盘读取出来，还没来的及被解压。
 
-  LRU List被分为两部分，默认前5/8为young list，存储经常被使用的热点page，后3/8为old list。
-  新读入的page默认被加在old list头，只有满足一定条件后，才被移到young list上，主要是为了预读的数据页和全表扫描污染buffer pool。
+  LRU List 被分为两部分，默认前5/8为young list，存储经常被使用的热点 page，后3/8为 old list。
+  新读入的page默认被加在old list头，只有满足一定条件后，才被移到young list上，主要是为了预读的数据页和全表扫描污染 buffer pool。
 
   > 某个扫描操作需要读出大量的页，如果采用朴素的LRU算法，这些低频的页将会被置于LRU链表头部；
   >
@@ -123,25 +123,33 @@ InnoDB存储引擎是个多线程模型，线程各司其职
 
   一个数据页可能会在不同的时刻被修改多次，在数据页上记录了最老(也就是第一次)的一次修改的lsn，即oldest_modification。
 
-  不同数据页有不同的oldest_modification，FLU List中的节点按照oldest_modification排序，链表尾是最小的，也就是最早被修改的数据页，当需要从FLU List中淘汰页面时候，从链表尾部开始淘汰。
+  不同数据页有不同的 oldest_modification，FLU List中的节点按照 oldest_modification 排序，链表尾是最小的，也就是最早被修改的数据页，当需要从FLU List中淘汰页面时候，从链表尾部开始淘汰。
 
-  加入FLU List，需要使用flush_list_mutex保护，所以能保证FLU List中节点的顺序。
+  加入 FLU List，需要使用 flush_list_mutex 保护，所以能保证FLU List中节点的顺序。
 
   > LRU列表用于管理页的可用性，FLU列表用于管理将页刷回磁盘。
   >
   > LRU还包含干净的非脏页的数据页。
+  >
+  > 当接收到一条写操作时，如果涉及到的数据存在于缓冲池中，则直接修改缓冲池中的数据；
+  >
+  > 否则，需要将数据页从磁盘加载到缓冲池中，首先需要先向 Free List 申请空白节点，数据页会被挂在 LRU List 上。
+  >
+  > 当 Free List 节点不足时，需要淘汰 LRU 或者 FLU List 上的节点。
+  
+  
 
-## Checkpoint技术
+## Checkpoint 技术
 
-  DML语句如（delete/update）会刷新页中的记录，使之变成脏页。脏页需要找个合适的时机刷新磁盘，这边是checkpoint技术。
+  DML语句如（delete/update）会刷新页中的记录，使之变成脏页。脏页需要找个合适的时机刷新磁盘，这便是 checkpoint 技术。
 
   WAL（write ahead log）策略：当事务提交时，先写重做日志，再修改页。这样当发生宕机时，就可以通过重做日志回复数据。
 
-* checkpoint技术要解决的问题：
+* checkpoint 技术要解决的问题：
 
   1）缩短数据库的恢复时间；
 
-  ​	数据恢复时，checkpoint之前的数据就不再需要重做，这样便缩短了恢复时间。
+  ​	数据恢复时，checkpoint 之前的数据就不再需要重做，这样便缩短了恢复时间。
 
   2）缓冲池不够用时，将脏页刷新到磁盘；
 
@@ -168,7 +176,7 @@ InnoDB存储引擎是个多线程模型，线程各司其职
 
     这里脏页是从脏页列表中选取的（就是flu list?）
 
-  * dirty page too much checkpoint;控制脏页的比例，小于`InnoDB_max_dirty_pages_pct`75%。
+  * dirty page too much checkpoint; 控制脏页的比例，小于`InnoDB_max_dirty_pages_pct`75%。
 
 <figure>
   <img src="mysql_innodb.assets/16a7950217b3f0f4ed02db5db59562a7.png" alt="img" style="zoom: 50%;">
@@ -181,7 +189,7 @@ InnoDB存储引擎是个多线程模型，线程各司其职
 
 [the InnoDB db change buffer](https://mysqlserverteam.com/the-InnoDB-change-buffer/)
 
-* why为什么需要插入缓冲？
+* why 为什么需要插入缓冲？
 
   为了解决写操作的随机I/O问题。
 
@@ -189,19 +197,19 @@ InnoDB存储引擎是个多线程模型，线程各司其职
 
   主键索引一般是自增ID，插入是有顺序的，不需要磁盘的随机读写。二次索引页的叶子节点的插入并不是顺序的，需要离散的访问索引页。
 
-  为了解决二次索引随机IO问题，InnoDB存储引擎引入了insert buffer。
+  为了解决二次索引随机 IO 问题，InnoDB 存储引擎引入了 insert buffer。
 
-  insert buffer一开始只支持insert 操作，后面同样支持update、delete（DML）操作，因此也被称之为change buffer。
+  insert buffer一开始只支持 insert 操作，后面同样支持update、delete（DML）操作，因此也被称之为change buffer。
 
-* 只有非唯一的辅助索引才能使用insert buffer
+* 只有非唯一的辅助索引才能使用 insert buffer
 	
 	插入缓冲时，引擎并不会去查找索引页来判断待插入的索引的唯一性，否则就将触发随机的磁盘读写。
 	
-* how 插入buffer如何工作？
+* how 插入 buffer 如何工作？
 
-  插入时，如果buffer pool缓存了这条记录所在的索引页，那么就会直接写入；否则，会将插入操作记录在insert buffer。然后再以一定的策略将inser buffer和和辅助索引页子节点进行merge。这时通常能够将多个插入操作合并到一个操作中，这就大大提高了非聚集索引的插入性能。
+  插入时，如果 buffer pool 缓存了这条记录所在的索引页，那么就会直接写入；否则，会将插入操作记录在insert buffer。然后再以一定的策略将 inser buffer 和辅助索引页子节点进行merge。这时通常能够将多个插入操作合并到一个操作中，这就大大提高了非聚集索引的插入性能。
   
-* 实现结束细节
+* 实现细节
 
   比较复杂，没看懂。
 

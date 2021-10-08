@@ -53,11 +53,13 @@ MySQL由以下几部分组成：
 
 ### InnoDB存储引擎
 
-设计目标是线上事务处理**OLTP**（online transaction processing），支持事务。
+设计目标是线上事务处理 **OLTP**（online transaction processing），支持事务。
 
 特点是：行锁设计、支持外键、非锁定读（默认读取操作会产生锁）。
 
-MySQL采用多版本控制MVCC实现高并发性，并且实现了SQL标准的四种隔离标准，默认为**REPEATABLE**级别。同时使用了一种next-key locking 的策略来避免**幻读（phantom）**的产生。
+MySQL采用多版本控制 MVCC 实现高并发性，并且实现了SQL标准的四种隔离标准，默认为 **REPEATABLE** 级别。
+
+同时使用了一种 next-key locking 的策略来避免**幻读（phantom）**的产生。
 
 InnoDB还支持：插入缓冲（insert buffer）、二次写（double writer）、自适应哈希索引（adaptive hash index）和预读（read ahead）等高性能和高可用的功能。
 
@@ -67,7 +69,7 @@ InnoDB还支持：插入缓冲（insert buffer）、二次写（double writer）
 
 表锁设计，支持全文检索。
 
-MyISAM的缓冲池只缓冲索引文件，不缓存数据文件。
+MyISAM 的缓冲池只缓冲索引文件，不缓存数据文件。
 
 ### Memory存储引擎
 
@@ -77,5 +79,5 @@ MyISAM的缓冲池只缓冲索引文件，不缓存数据文件。
 
 Memory引擎默认使用哈希索引，而不是B+树。
 
-只支持表锁，并发性能查。
+只支持表锁，并发性能差。
 

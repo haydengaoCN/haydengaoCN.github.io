@@ -22,11 +22,11 @@
 
    ​	[数据库](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/note-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/9-%E6%95%B0%E6%8D%AE%E5%BA%93.md) Redis 数据库存放于内存之中，以字典的方式组织索引。介绍了过期键的删除策略：定时删除、惰性删除和定期删除。
 
-   ​	[Redis 持久化](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/note-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/Redis%E6%8C%81%E4%B9%85%E5%8C%96_chap10-11.md) Redis 提供了快照保存方式 RDB 和命令记录方式 AOF 两种持久化手段。
+   ​	[Redis 持久化](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/note-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/Redis%E6%8C%81%E4%B9%85%E5%8C%96_chap10-11.md) Redis 提供了快照保存方式 RDB 和命令记录方式 AOF 两种持久化手段，当然也可以是 RDB + AOF。
+
+   ​	[事件](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/note-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/12-%E4%BA%8B%E4%BB%B6.md) Redis 服务端是由事件驱动的服务，事件分为文件事件和时间事件；文件事件是对 socket 状态的抽象，时间事件指的是需要定期执行的操作（实际上只有一个 `serverCron` 函数)。本章更为重要的是介绍了 Redis 的网络模型：单线程的 Reactor 架构。主  	线程既负责利用 I/O 多路复用函数处理网络通信，又负责调用事件处理器处理命令请求。
 
    ​	[Redis 客户端和服务端](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/note-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/Redis%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF_chap12-13.md) 一条命令从客户端发送到服务端的流程。
-
-   ​	[事件](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/note-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/12-%E4%BA%8B%E4%BB%B6.md) Redis 服务端是由事件驱动的服务，事件分为文件事件和时间事件；文件事件是对 socket 状态的抽象，时间事件指的是需要	定期执行的操作（实际上只有一个 `serverCron` 函数)。本章更为重要的是介绍了 Redis 的网络模型：单线程的 Reactor 架构。主  	线程既负责利用 I/O 多路复用函数处理网络通信，又负责调用事件处理器处理命令请求。
 
    [Part 3 多机数据库的实现](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/note-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/part3-%E5%A4%9A%E6%9C%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AE%9E%E7%8E%B0.md) 单个服务器毕竟内存和 QPS 都受限，为了提升性能和可用性，可以采用 Redis 多机数据库。
 
@@ -41,9 +41,9 @@
 **[浅斟低唱](https://github.com/haydengaoCN/haydengaoCN.github.io/tree/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1) 离散知识点，记录工作中用到的组件背后原理**。
 
 1. [关系型数据库与非关系型数据库](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/1-%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93.md) 二者的简单比较。
-2. [RocksDB 磐石方且厚](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/2-RocksDB%E4%BD%8E%E5%90%9F.md) 关键字：LSM，SST，WAL。
+2. [RocksDB 磐石方且厚](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/2-RocksDB%E7%A3%90%E7%9F%B3%E6%96%B9%E4%B8%94%E5%8E%9A.md) 关键字：LSM，SST，WAL。
 3. [Redis 初探](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/3-Redis%E5%88%9D%E6%8E%A2.md) 
-4. [ElasticSearch 简述](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/4-ElasticSearch%E7%AE%80%E8%BF%B0.md) 关键字：全文检索，ES 整体结构，写入和搜索过程。
+4. [ElasticSearch 五岳倒为轻](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/4-ElasticSearch%E4%BA%94%E5%B2%B3%E5%80%92%E4%B8%BA%E8%BD%BB.md) 关键字：全文检索，ES 整体结构，写入和搜索过程。
 5. [RPC 只缘身在此山中](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/5-RPC%E5%8F%AA%E7%BC%98%E8%BA%AB%E5%9C%A8%E6%AD%A4%E5%B1%B1%E4%B8%AD.md) 关键字：RPC，服务发现，序列化与反序列化。
 6. [Pulsar 湖光秋月两相和](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/6-Pulsar%E6%B9%96%E5%85%89%E7%A7%8B%E6%9C%88%E4%B8%A4%E7%9B%B8%E5%92%8C.md) 关键字：消息中间件，计算和存储分离，分片存储。
 
