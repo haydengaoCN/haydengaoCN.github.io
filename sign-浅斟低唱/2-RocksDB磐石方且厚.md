@@ -6,27 +6,29 @@ RocksDB 是一款基于 [LevelDB](https://github.com/google/leveldb) 开发的�
 
 其同时支持 point lookups 和范围查找并且支持 ACID。
 
-RocksDB 能够运行在 SSD、硬盘、RAMfs 和远程存储等多个环境和各种压缩算法。
+RocksDB 能够运行在 SSD、硬盘、RAMfs 和远程存储等多个环境中，并且支持多种压缩算法。
 
 # 1-核心组件
 
 ## 1.1 整体架构
 
-RocksDB由三个基础的组件构成：MemTable、SST （string sorted table）和 WAL（Write Ahead Log）。
+RocksDB 由三个基础的组件构成：MemTable、SST （string sorted table）和 WAL（Write Ahead Log）。
 
-写入时RocksDB会先写入位于内存中的MemTable（而非直接写入到磁盘中）和顺序写入磁盘文件 logfile。
+写入时 RocksDB 会先将数据写入位于内存中的 MemTable（而非直接写入到磁盘中）和顺序写入磁盘文件 logfile。
 
-当 MemTable 被写满时，RocksDB 才会将内存中的内容写入到 SST 文件中，SST 文件中有多层并且其内容是按照Key的某种顺序存放的，除了L0之外，L1-Ln 的 SST 文件包含的 key 的范围都不会互相覆盖。
+当 MemTable 被写满时，RocksDB 才会将内存中的内容写入到 SST 文件中。SST 按照 key 顺序组织数据，除了L0之外，L1-Ln 的 SST 文件包含的 key 的范围都不会互相覆盖。
 
 当数据被写入到SST文件后就可以删掉对应的 logfile。
 
 多层 Level 的 SST 文件就构成了一棵  LSM 树。
 
-LSM 树特点：分层、有序、面向磁盘的存储结构
+LSM 树特点：**分层**、**有序**、**面向磁盘**的存储结构
 
-1）除了 Level 0 以外，Level 的数据按照 KEY 有序排列，并且被划分为多个 SST 文件；
+1）每个 SST 文件中的数据 按照 key  有序排列；
 
 2）每个 Level 中的 SST 文件数目不同，下层与上层文件数目之比称之为扇出；
+
+3）除了 L0  之外，每层的 SST 文件包含的 key  的范围不会互相重合；
 
 3）上层文件在适当的时机会合并到下层文件，这个过程称之为 Compaction；
 
@@ -45,11 +47,11 @@ LSM 树特点：分层、有序、面向磁盘的存储结构
 
 可见 MemTable 存放了 RocksDB 最新的数据，读操作总是会先查询 MemTable 然后再查询 SST 文件。
 
-MemTable 中的数据是有序的，默认的实现方式是调表 Skiplist，此外还支持HashSkipList，HashLinkList 或者 Vector。
+MemTable 中的数据是有序的，默认的**实现方式**是跳表 Skiplist，此外还支持HashSkipList，HashLinkList 或者 Vector。
 
 > HashSkipList：根据 key 的前缀将数据放到哈希桶中，桶中的数据还是根据 Skiplist 组织。
 >
-> 查找时先根据 KEY 前缀找到桶，然后在调表上查询。适合范围查找（有固定前缀）。
+> 查找时先根据 KEY 前缀找到桶，然后在跳表上查询。适合范围查找（有固定前缀）。
 > HashLinkList：和HashSkipList类似，但是桶中的数据用链表组织。适合范围查找并且数量较少的数据。
 
 [MemTable刷新的时机以及实现方式的比较](https://github.com/facebook/rocksdb/wiki/MemTable)
@@ -62,7 +64,7 @@ WAL 记录了每次更新并且及时刷新到磁盘，如此保证了当进程�
 
 **WAL 的生命周期**：
 
-WAL 被创建于 1）一个新 DB 打开的时候；2）某个 Column Family 被刷新到磁盘上。用户主动将 Column Family 中的数据刷新到 SST 文件时，新的 WAL 就会被创建，后续的更新会被写到新的 WAL。 当所有的数据被刷新到 SST 时，旧的 WAL 就可以被删除或者归档（archive 是为了不同实例时间的 replication）。
+WAL 被创建于 1）一个新 DB 打开的时候；2）某个 Column Family 被刷新到磁盘上。用户主动将 Column Family 中的数据刷新到 SST 文件时，新的 WAL 就会被创建，后续的更新会被写到新的 WAL。 当所有的数据被刷新到 SST 时，旧的 WAL 就可以被删除或者归档（archive 是为了不同实例之间的 replication）。
 
 **WAL 如何判断 Column Familys 的数据已经完全刷新到磁盘**？
 
@@ -70,7 +72,7 @@ WAL 被创建于 1）一个新 DB 打开的时候；2）某个 Column Family 被
 
 一个有趣的问题是既然都要写磁盘，**为什么不直接把真正的数据刷新到磁盘**？
 
-这并不是南辕北辙。写磁盘上的 WAL 可以顺序写，但是写数据确是随机的。因为磁盘上的数据是按照 KEY 的一定规则顺序存储的，随机的数据更新带来随机的磁盘插入。WAL 只是记录更新的日志，只要继续插入在前方即可。
+这并不是南辕北辙。写磁盘上的 WAL 可以顺序写，但是写数据却是随机的。因为磁盘上的数据是按照 KEY 的一定规则顺序存储的，随机的数据更新带来随机的磁盘插入。WAL 只是记录更新的日志，只要继续插入在前方即可。
 
 ## 1.4 SST （Sorted String Table）
 
@@ -141,6 +143,8 @@ compaction 算法刻画了 LSM Tree 的形状。
 
 合并 Level n 就是将 Level (n-1) 的数据合并到 Level n，Level n 的数据需要重写（读写放大问题）。
 
+compation 过程会合并两个文件中冗余的 key、删除失效的 key。
+
 归并的策略有：
 
 1）**Leveled Compaction**；
@@ -159,9 +163,9 @@ compaction 算法刻画了 LSM Tree 的形状。
 
 3）在第0层 SSTable 中查找，无法命中转到下一流程； 
 
-> 对于L0 的文件，RocksDB 采用遍历的方法查找，所以为了查找效率 RocksDB 会控制 L0 的文件个数。每个 Memt able 跟 SST 都会有相应的 Bloom Filter 来加快判断 Key 是否可能在其中，当判断 Key 可能在其中时，就会在 Memtable 或者 SST 中进行查找。
+> 对于L0 的文件，RocksDB 采用遍历的方法查找，所以为了查找效率 RocksDB 会控制 L0 的文件个数。每个 Memtable 跟 SST 都会有相应的 Bloom Filter 来加快判断 Key 是否可能在其中，当判断 Key 可能在其中时，就会在 Memtable 或者 SST 中进行查找。
 
-4）在剩余SSTable中查找。对于 L1 层以及 L1 层以上层级的文件，每个 SSTable 没有交叠，可以使用二分查找快速找到 key 所在的 Level 以及 SSTfile。
+4）在剩余 SSTable 中查找。对于 L1 层以及 L1 层以上层级的文件，每个 SSTable 没有交叠，可以使用二分查找快速找到 key 所在的 Level 以及 SSTfile。
 
 ## 写
 

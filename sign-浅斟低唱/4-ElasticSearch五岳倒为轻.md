@@ -35,9 +35,9 @@ ES 中每一条记录被称之为 `doc`，如果 `docs` 之间格式相同，则
 
 ES 中搜索的最小单位是 `doc`，`doc` 由字段和值构成（可以理解为 json 形式），具有一定的结构；但是其结构是非常灵活的，文档可以省略或者新增某些字段。
 
-`type` 是文档的逻辑容器，每种 `type`  的字段定义被称之为映射（mapping）。ES 的特点是 schemaless，插入数据前不需要预先定义数据结构，ES 动态识别 `doc` 中的字段类型，生成 mapping；在以后的数据中可以新增某些字段，产生新的 smapping。
+`type` 是文档的逻辑容器，每种 `type`  的字段定义被称之为映射（mapping）。ES 的特点是 schemaless，插入数据前不需要预先定义数据结构，ES 动态识别 `doc` 中的字段类型，生成 mapping；在以后的数据中可以新增某些字段，产生新的 mapping。
 
-`index` 是有一个或者多个 `doc` 构成。
+`index` 是由一个或者多个 `doc` 构成。
 
 ```bash
 # 通过 POST 和 PUT 写入数据，前者 ES 会自动生成 _id，后者指定 _id
@@ -75,7 +75,7 @@ curl -X PUT 'localhost:9200/app/users/4' -H 'Content-Type: application/json' -d 
 
 ## shard（分片）、节点（node）和集群（cluster）
 
-前面提到，ES 支持 PB 级别的数据，如此大规模的数据无法放到一个磁盘内（或者及时能放得下，搜索也会变得很慢）；
+前面提到，ES 支持 PB 级别的数据，如此大规模的数据无法放到一个磁盘内（或者即使能放得下，搜索也会变得很慢）；
 
 事实上 ES 会将 `index` 分片，将数据分配到多个节点 `node`。每个 `shard` 是一个功能完善并且独立的索引。
 
@@ -176,7 +176,7 @@ curl -X PUT 'localhost:9200/app/users/4' -H 'Content-Type: application/json' -d 
 
   正排索引可以通过 id 查找到对应的文章，但是无法通过给的部分内容如 `love`,找出含有该关键字的文档。
 
-  倒排索引会先对文档进行分析将其拆分成单个 Term, 并存储包含该Term的文档 id，这样便可以实现通过内容查找对应文档。
+  倒排索引会先对文档进行分析将其拆分成单个 Term, 并存储包含该 Term 的文档 id，这样便可以实现通过内容查找对应文档。
 
   比如搜索包含 `love` 的文档，`love`出现的次数越多，则其相关性可能就越高。
 
