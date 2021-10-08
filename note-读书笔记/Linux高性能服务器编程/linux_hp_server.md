@@ -1,4 +1,4 @@
-# 1TCP/IP协议族
+# 1 - TCP/IP协议族
 
 ## TCP/IP 协议族体系结构
 
@@ -6,7 +6,7 @@
     <img src="linux_hp_server.assets/image-20210827142909543.png" alt="img" style="zoom:67%;">
     <figcaption>Fig. 1-1 四层协议族及主要协议。</figcaption>
   </figure>
-
+ 
 
 * 数据链路层
 
@@ -16,9 +16,9 @@
 
   主要协议：
 
-  **ARP地址解析协议**：解析IP地址 from 物理地址（MAC）；
+  **ARP地址解析协议**：根据 IP 地址获取物理地址（MAC）；
 
-  **RARP逆地址解析协议**：解析物理地址 from IP 地址；
+  **RARP逆地址解析协议**：根据物理地址反解出 IP 地址；
 
   网络层使用IP地址寻址一台机器，数据链路层使用物理地址寻址一台机器。
 
@@ -26,7 +26,7 @@
 
   实现数据包的选路(routing)和转发。
 
-  > WAN(Wide Area Network)通常选用分级的路由器来连接分散的主机和LAN(Local Area Network)；
+  > WAN(Wide Area Network) 通常选用分级的路由器来连接分散的主机和 LAN(Local Area Network)；
   >
   > 因此两台主机通常并不是直接相连，而是通过多个中间节点（路由器）连接的；
   >
@@ -95,8 +95,9 @@
 
   <figure>
     <img src="linux_hp_server.assets/image-20210827153133303.png" alt="img" style="zoom:67%;">
-    <figcaption>Fig. 1-3 下层并不会修改上层的内容，而是在头尾加上本层的内容。</figcaption>
+    <figcaption>Fig. 1-3 下层并不会修改上层的内容，而是在头部或者尾部加上本层的内容。</figcaption>
   </figure>
+
 
 分用(demultiplexing)：数据到达目的主机后，由下往上各协议层解析获取各自所需信息，并最终将数据交给应用层的过程。
 
@@ -200,7 +201,7 @@ TCP协议相对于UDP协议的特点：**面向连接的**、**字节流**和**�
 
 * **面向连接**：
 
-  1）使用TCP协议通信的双方必须先建立连接（双方为连接分配不要的内核资源，方便管理连接的  状态和连接上数据的传输），然后才能开始数据的读写；
+  1）使用TCP协议通信的双方必须先建立连接（双方为连接分配必要的内核资源，方便管理连接的 状态和连接后数据的传输），然后才能开始数据的读写；
 
   2）TCP连接是全双工的，即双方的数据读写是可以通过一个连接进行。
 
@@ -330,7 +331,7 @@ TCP连接的两端都是一个状态机。在TCP连接从建立到断开的整�
 
   客户端执行主动关闭时，将向服务端发送一个结束报文段，状态转移到**FIN_WAIT_1**。
 
-  此时如果接收到服务端的确认报文段，服务端进入**CLOSE_WAIT**的状态，则客户端连接状态进入**FIN_WAIT_2**；**FIN_WAIT_2**的作用是继续接受来自服务端的未传完的数据，此时了解进入半关闭状态。
+  此时如果接收到服务端的确认报文段，服务端进入**CLOSE_WAIT**的状态，则客户端连接状态进入**FIN_WAIT_2**；**FIN_WAIT_2**的作用是继续接受来自服务端的未传完的数据，此时连接进入半关闭状态。
 
   如果服务器端发送FIN+ACK的报文段，服务端连接进入到**LAST_ACK**状态，客户端的连接状态转移至**TIME_WAIT**;
 
@@ -338,7 +339,7 @@ TCP连接的两端都是一个状态机。在TCP连接从建立到断开的整�
 
   1）case1：**FIN_WAIT_1**可以直接转移到**TIME_WAIT**，如果服务端直接回复FIN+ACK报文。
 
-  2）case2：处于**FIN_WAIT_1**的连接客户端连接迟迟接收不到来自服务端的结束确认报文（服务端直接退出了），则客户端连接编程孤儿连接。内核指定了孤儿连接的数目和生存时间。
+  2）case2：处于**FIN_WAIT_1**的连接客户端连接迟迟接收不到来自服务端的结束确认报文（服务端直接退出了），则客户端连接成为 孤儿连接。内核指定了孤儿连接的数目和生存时间。
 
 ### TIME_WAIT状态
 
@@ -403,6 +404,14 @@ TCP为每个报文段都设置了一个重传定时器，当TCP报文段被第�
 
 超时会触发超时重传，但是TCP报文可以在超时之前就主动重传，即**快速重传**。
 
+> 一个报文段 seq1 丢失，发送方迟迟（在超时时间内）无法等来对该报文的确认，才能发现其丢失，然后触发超时重传，这1）增加了端到端的延时并且2）服务端即使收到了后续其他报文 seq2 也无法确认，只能重复发送之前的确认报文。
+>
+> 快速重传就是用来解决这个问题：如果收到了三个重复的 ACK 报文，说明报文丢失了，应该立即重传。
+>
+> 发送端：seq0 - seq1 - seq2 - seq3;
+>
+> 接收端正确接收到 seq0 并且回复确认报文，seq1 丢失，接收端收到 seq2、seq3 的报文只能重复确认 seq0。
+
 ### 拥塞控制
 
 讲的是TCP协议评估网络情况，提高网络利用率，降低丢包率，并保证网络资源对每个数据流的公平。
@@ -433,7 +442,7 @@ $LastByteSend - LastByteAck \le min \{CWND, RWND\}$
 
 * 慢启动和拥塞避免
 
-  当一个TCP开始的时候，CWND的值被设置为一个MSS，这个值可能远小于可用带宽。因此TCP发送方没经过一个RTT时间，就将CWND的值翻倍，也就是以指数的形式增加，直到发生一个丢包事件为止（或者有一个慢启动门限？）该算法被称之为慢启动，是因为发送方以一个较慢的发送速率启动，然后指数增加。
+  当一个TCP开始的时候，CWND的值被设置为一个MSS，这个值可能远小于可用带宽。因此TCP发送方每经过一个RTT时间，就将CWND的值翻倍，也就是以指数的形式增加，直到发生一个丢包事件为止（或者有一个慢启动门限？）该算法被称之为慢启动，是因为发送方以一个较慢的发送速率启动，然后指数增加。
 
   总之当丢包发生或者触达慢启动门限时，进入到线性的拥塞避免算法阶段。
 
@@ -459,6 +468,96 @@ $LastByteSend - LastByteAck \le min \{CWND, RWND\}$
   > 其实一开始无论是遇到超时还是三个冗余确认，CWND都会被降到1个MSS，然后执行慢启动算法。
   >
   > 但是一些有识之士认为，这两种行为不能一概而论。能收到三个冗余确认，说明整个网络的情况还是可以的，应该降到现有阈值的一半，然后拥塞控制算法线性增加窗口。这里降到一半而非1个MSS就体现了快速二字。
+
+# 5 - Linux 网络基础编程 API
+
+## socket 编程
+
+* 服务端
+
+  1）`socket` 初始化 socket，指定 IP 协议版本和传输层协议 TCP/UDP；
+
+  2）`bind` 命名 socket，绑定 IP 地址和端口号；
+
+  3）`listen` 服务端开始监听，这时客户端可以开始发起连接；
+
+  4）`accept` 接收来自服务端的连接，并且为本次连接创建 socket；
+
+  5）开始读写；
+
+* 客户端
+
+  1）`socket`  初始化 socket，指定 IP 协议版本和传输层协议 TCP/UDP；
+
+  2）`connect` 尝试发起连接；
+
+  3）开始读写；
+
+```C++
+// 服务端
+
+// 0. 初始化sock addr
+  // 指定IP地址和端口，注意转化为网络序
+  auto address = [&ip, port]() {
+    struct sockaddr_in address;
+    bzero(&address, sizeof(address));
+    address.sin_family = AF_INET;
+    // 将IP地址从文本转化为二进制格式
+    inet_pton(AF_INET, ip, &address.sin_addr);
+    address.sin_port = htons(port);
+    return address;
+  }();
+
+// 1. socket 初始化
+  // PF_INET -> ipv4; PF_UNIX -> unix本地域协议族
+  // SOCK_STREAM -> 流服务; SOCK_UGRAM -> 数据报
+  // 0 -> 由前两个参数确定，设置为0表示使用默认协议
+  int listen_fd = socket(PF_INET, SOCK_STREAM, 0);
+// 2. socket 命名
+  // PF_INET -> ipv4; PF_UNIX -> unix本地域协议族
+  // SOCK_STREAM -> 流服务; SOCK_UGRAM -> 数据报
+  // 0 -> 由前两个参数确定，设置为0表示使用默认协议
+  int listen_fd = socket(PF_INET, SOCK_STREAM, 0)
+// 3. socket 监听
+  // backlog 参数提示内核监听队列的最大长度，超过这个长度将不再受理新的连接，客户端收到ECONNREFUSE
+  // 典型值为 5 
+  listen(listen_fd, 5)
+// 4. 阻塞直到收到连接
+  int connfd = accept(listen_fd, (struct sockaddr*)(&client), &client_addrlength);
+```
+
+```C++
+// 客户端
+
+// 0. 初始化sock addr
+  // 指定IP地址和端口，注意转化为网络序
+  auto address = [&ip, port]() {
+    struct sockaddr_in address;
+    bzero(&address, sizeof(address));
+    address.sin_family = AF_INET;
+    // 将IP地址从文本转化为二进制格式
+    inet_pton(AF_INET, ip, &address.sin_addr);
+    address.sin_port = htons(port);
+    return address;
+  }();
+// 1. 初始化 socket
+  // PF_INET -> ipv4; PF_UNIX -> unix本地域协议族
+  // SOCK_STREAM -> 流服务; SOCK_UGRAM -> 数据报
+  // 0 -> 由前两个参数确定，设置为0表示使用默认协议
+  int sock = socket(PF_INET, SOCK_STREAM, 0);
+// 2. 发起连接
+  if (connect(sock, (struct sockaddr*)(&address), sizeof(address)) < 0) {
+    printf("connection error.\n");
+    return 1;
+  } else {
+    char buffer[1024];
+    recv(sock, buffer, sizeof(buffer) - 1, 0);
+    printf("%s", buffer);
+    close(sock);  // 关闭连接
+  }
+```
+
+
 
 # 8 - 高性能服务器框架
 
@@ -553,12 +652,12 @@ I/O模型对比
 
 * I/O复用的概念
 
-  应用程序通过I/O复用函数注册关注的事件，内核通过I/O复用函数把就绪的时间通知给应用程序。
+  应用程序通过I/O复用函数注册关注的事件，内核通过I/O复用函数把就绪的事件通知给应用程序。
 
 ## 三个I/O复用函数
 
 ```C
-int select(int nfds, fd_set* readfds, fd_set* wtitefds, fd_set* exceptfds, truct timeval* timeout);
+int select(int nfds, fd_set* readfds, fd_set* writefds, fd_set* exceptfds, struct timeval* timeout);
 // readfds, writefds和exceptfds分别表示可读、可写和异常的(比如带外数据)fds
 // fdset可以理解为一个数组，大小是1024
 // nfds 指定被监听的文件描述符的总数
@@ -628,13 +727,13 @@ int epoll_wait(int epfd, struct epoll_event* events, int maxevents, int timeut);
 
 * 三组I/O复用函数的比较
 
-| 系统调用                             | select                                                       | poll                                                         | epoll                                                        |
-| ------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 事件集合                             | 用户通过三个参数注册感兴趣的可读、可写和异常事件；<br />内核通过对着三个参数的修改来反馈就绪事件，<br />因此用户每次调用select都要重置这三个参数 | 统一处理所有事件类型，用户只需要一个事件集参数；<br />用户通过pollfd.event传入感兴趣的事件，<br />内核通过修改pollfd.revents反馈真实发生的事件； | 内核通过一个时间表直接管理所有的事件；<br />因此用户不需要返回传入感兴趣的文件描述符集合 |
-| 应用程序索就绪文件描述符的时间复杂度 | O(n)                                                         | O(n)                                                         | O(1)                                                         |
-| 最大支持文件描述符数                 | 1024                                                         | 65535[^1]                                                    | 65535                                                        |
-| 工作模式                             | LT                                                           | LT                                                           | 支持高效的ET模式                                             |
-| 内核实现和工作效率                   | 采用轮询来检测就绪事件，O(n)                                 | 采用轮询来检测就绪事件，O(n)                                 | 采用回调函数来检测就绪事件[^2]，O(1)                         |
+| 系统调用                               | select                                                       | poll                                                         | epoll                                                        |
+| -------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 事件集合                               | 用户通过三个参数注册感兴趣的可读、可写和异常事件；<br />内核通过对着三个参数的修改来反馈就绪事件，<br />因此用户每次调用select都要重置这三个参数 | 统一处理所有事件类型，用户只需要一个事件集参数；<br />用户通过pollfd.event传入感兴趣的事件，<br />内核通过修改pollfd.revents反馈真实发生的事件； | 内核通过一个事件表直接管理所有的事件；<br />因此用户不需要返回传入感兴趣的文件描述符集合 |
+| 应用程序搜索就绪文件描述符的时间复杂度 | O(n)                                                         | O(n)                                                         | O(1)                                                         |
+| 最大支持文件描述符数                   | 1024                                                         | 65535[^1]                                                    | 65535                                                        |
+| 工作模式                               | LT                                                           | LT                                                           | 支持高效的ET模式                                             |
+| 内核实现和工作效率                     | 采用轮询来检测就绪事件，O(n)                                 | 采用轮询来检测就绪事件，O(n)                                 | 采用回调函数来检测就绪事件[^2]，O(1)                         |
 
 [^1]:系统允许的最大描述符的数目，epoll同；
 [^2]:内核检测到就绪事件时，将触发回调函数，将就绪事件对应的文件描述符插入到内核就绪事件队列，内核在适当时机将该事件就绪队列中的内容拷贝到用户空间。这样就避免了轮询。
@@ -688,8 +787,9 @@ ipcrm可以删除遗留的共享资源。
 
 <figure>
   <img src=linux_hp_server.assets/image-20210902112404562.png alt="img" style="zoom:67%;">
-  <figcaption>Fig. 5-2 使用信号量来保护关键呆码段。</figcaption>
+  <figcaption>Fig. 5-2 使用信号量来保护关键代码段。</figcaption>
 </figure>
+
 
 * 共享内存
 
