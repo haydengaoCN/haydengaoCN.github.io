@@ -46,6 +46,7 @@
 4. [ElasticSearch 五岳倒为轻](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/4-ElasticSearch%E4%BA%94%E5%B2%B3%E5%80%92%E4%B8%BA%E8%BD%BB.md) 关键字：全文检索，ES 整体结构，写入和搜索过程。
 5. [RPC 只缘身在此山中](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/5-RPC%E5%8F%AA%E7%BC%98%E8%BA%AB%E5%9C%A8%E6%AD%A4%E5%B1%B1%E4%B8%AD.md) 关键字：RPC，服务发现，序列化与反序列化。
 6. [Pulsar 湖光秋月两相和](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/6-Pulsar%E6%B9%96%E5%85%89%E7%A7%8B%E6%9C%88%E4%B8%A4%E7%9B%B8%E5%92%8C.md) 关键字：消息中间件，计算和存储分离，分片存储。
+7. [DataConsistency 世间安得双全法](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/7-DataConsistency%E4%B8%96%E9%97%B4%E5%AE%89%E5%BE%97%E5%8F%8C%E5%85%A8%E6%B3%95.md) 关键字：缓存和数据库一致性，缓存三大问题。
 
 -----------
 
@@ -61,7 +62,7 @@
 
 一是过早深入，囿于细节。比如在学习 InNoDB 的重做日志 RedoLog，核心是要明白事务提交之前会先将本次操作刷新到位于磁盘的 RedoLog， 以保证数据的持久性 （**D**urable）。至于 RedoLog 文件格式、Group  Commit 以及和 binlog 交互等问题，或许可以暂时先放着。
 
-二是不成条理，缺乏理解。在比较 MySQL 和 NoSQL 时，常有人说前者是支持事务的，后者不支持。而事实上数据库是否支持事务取决于存储层的存储引擎，比如一个表使用了 InNoDB，那么这个表就支持事务操作；而同一个数据库中另一个表使用了 MyISAM ，那么这个表就不支持事务。如果对数据库的基本抽象（server 层 + 插件式的存储引擎）都没有，那么就无法鉴别这类似是而非的论断，更谈不上有自己的理解。
+二是不成条理，缺乏理解。在比较 MySQL 和 NoSQL 时，常有人说前者是支持事务的，后者不支持。而事实上数据库是否支持事务取决于存储层的存储引擎，比如一个表使用了 InNoDB，那么这个表就支持事务操作；而同一个数据库中另一个表使用了 MyISAM ，那么这个表就不支持事务。如果缺少对数据库的基本抽象（server 层 + 插件式的存储引擎），那么就无法鉴别这类似是而非的论断，更谈不上有自己的理解。
 
 那么如何建立对陌生事物的高度抽象呐？无它，书籍是人类进步的阶梯。
 
