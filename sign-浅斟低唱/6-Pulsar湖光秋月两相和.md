@@ -92,7 +92,7 @@ Pulsar 整体架构如下图所示，有三大组件：
 
   如果是 `bookies`上的某个 segment 失败，则只进行 segment 级别的数据恢复，故障分片可以从其他两个副本的数据进行恢复。
 
-  如果是 `bookie` 节点失败，则其上所有的 segments 都需要被修复，并存储到新的 `bookie` 。
+   如果是 `bookie` 节点失败，则其上所有的 segments 都需要被修复，并存储到新的 `bookie` 。
 
   上述副本修复的过程都在后台，对 `broker`和副本透明。
 <figure>

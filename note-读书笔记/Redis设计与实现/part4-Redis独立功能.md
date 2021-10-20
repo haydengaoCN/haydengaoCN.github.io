@@ -109,3 +109,39 @@ Redis 使用 SDS 来保存数组。
 # 7 - 监视器
 
 通过执行 *monitor* 命令，客户端可以将自己变成服务器的监视器，实时接收并打印出服务器当前处理的命令请求的相关信息。
+
+
+
+# 8 - Redis 分布式锁
+
+[Redlock](https://redis.io/topics/distlock)
+
+加锁：
+
+```bash
+SET resource_name my_random_value NX PX 30000
+```
+
+释放前必须先核验是否是自己设置的锁：
+
+```lua
+if redis.call("get",KEYS[1]) == ARGV[1] then
+    return redis.call("del",KEYS[1])
+else
+    return 0
+end
+```
+
+`NX` 表示 Not eXist，也就是说只有这个 key  不存在才会被设置；
+
+`PX` 设置过期时间为 30000 ms。
+
+`my_random_value` 是一个随机的值，并且保证在给定范围内不重复：所有的客户端 && 所有的 lock 请求。
+
+1）设置过期时间是为了避免某个客户端因为某种原因（crash）没有删除锁，导致其他客户端永远无法获取该锁；
+
+2）给 key 设置一个随机值，是为了避免释放其他请求设置的锁；
+
+> 比如客户端 A 设置的锁因为过期已经被释放了，客户端 B 重新设置了相同名字的锁；
+>
+> 这时客户端 A 执行完任务想要删除锁之前，必须核验是否是自己设置的锁。
