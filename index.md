@@ -35,6 +35,10 @@
    * 集群 Cluster：读写操作负载均衡，存储能力不再受限于单机。是较为完善的高可用方案。
    
    [Part 4 Redis 独立功能](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/note-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/part4-Redis%E7%8B%AC%E7%AB%8B%E5%8A%9F%E8%83%BD.md) 介绍了 Redis 的独立功能：发布和订阅、事务、LUA 脚本、排序、二进制位数组、慢查询日志、监视器、分布式锁。
+   
+4. [Kafka 技术内幕：Kafka 源码设计与实现](https://github.com/haydengaoCN/haydengaoCN.github.io/tree/main/note-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Kafka%E6%8A%80%E6%9C%AF%E5%86%85%E5%B9%95) 作者基于 0.10 版本的 Kafka 为基础，介绍其内部的组件和特性。
+
+   [chap1-Kafka 入门](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/note-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Kafka%E6%8A%80%E6%9C%AF%E5%86%85%E5%B9%95/1-Kafka%E5%85%A5%E9%97%A8.md) 介绍了 Kafka 的基本概念：分区模型、消费模型和分布式模型。印象比较深的是关于存储系统的论断：磁盘的顺序访问顺序有时会高于内存的随机读取，甚至接近网络访问。
 
 
 
