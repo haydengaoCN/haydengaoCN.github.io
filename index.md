@@ -52,6 +52,10 @@
 6. [Pulsar 湖光秋月两相和](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/6-Pulsar%E6%B9%96%E5%85%89%E7%A7%8B%E6%9C%88%E4%B8%A4%E7%9B%B8%E5%92%8C.md) 关键字：消息中间件，计算和存储分离，分片存储。
 7. [DataConsistency 世间安得双全法](https://github.com/haydengaoCN/haydengaoCN.github.io/blob/main/sign-%E6%B5%85%E6%96%9F%E4%BD%8E%E5%94%B1/7-DataConsistency%E4%B8%96%E9%97%B4%E5%AE%89%E5%BE%97%E5%8F%8C%E5%85%A8%E6%B3%95.md) 关键字：缓存和数据库一致性，缓存三大问题。
 
+
+
+**[日常备忘](https://github.com/haydengaoCN/haydengaoCN.github.io/tree/main/tools-%E6%97%A5%E5%B8%B8%E5%A4%87%E5%BF%98) 但忆初强记，谁知晚健忘 - 日常用到的小知识。**
+
 -----------
 
 
